@@ -252,6 +252,7 @@
       align-items: flex-start;
       position: relative;
       overflow: hidden;
+      cursor: pointer; /* Добавили курсор-руку */
     }
 
     .hero-card::after {
@@ -285,7 +286,7 @@
       object-position: center top;
       display: block;
       margin-bottom: 1rem;
-      border: 3px solid #00aaff; /* ТЕПЕРЬ СИНЯЯ РАМКА */
+      border: 3px solid #00aaff; /* СИНЯЯ РАМКА */
       box-shadow: 0 0 18px rgba(0, 170, 255, 0.55); /* СИНЕЕ СВЕЧЕНИЕ */
       background: #0e131f;
     }
@@ -353,7 +354,7 @@
       padding: 1rem 1.5rem;
       border-radius: 60px;
       border-left: 10px solid;
-      transition: 0.2s;
+      transition: 0.4s ease; /* Плавный переход для подсветки */
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
     }
 
@@ -378,7 +379,7 @@
       object-fit: cover;
       object-position: center top;
       flex-shrink: 0;
-      border: 2px solid #00aaff; /* ТЕПЕРЬ СИНЯЯ РАМКА */
+      border: 2px solid #00aaff; /* СИНЯЯ РАМКА */
       background: #0e131f;
     }
 
@@ -389,6 +390,7 @@
       padding: 0.3rem 1rem;
       border-radius: 40px;
       color: white;
+      transition: 0.4s ease;
     }
 
     .high {
@@ -419,6 +421,19 @@
     .low .power-score {
       color: #e74c3c;
       text-shadow: 0 0 6px #e74c3c;
+    }
+
+    /* ===== НОВЫЙ КЛАСС ДЛЯ СИНЕЙ ПОДСВЕТКИ РЕЙТИНГА ===== */
+    .rating-item.blue-highlight {
+      border-left-color: #00aaff;
+      box-shadow: 0 0 25px rgba(0, 170, 255, 0.6);
+      background: #1c2b3d; /* Немного синеватый фон */
+      transform: translateX(10px) scale(1.02);
+    }
+
+    .rating-item.blue-highlight .power-score {
+      color: #00aaff;
+      text-shadow: 0 0 8px #00aaff;
     }
 
     .rating-note {
@@ -673,12 +688,12 @@
     <p>Здесь вы найдёте восемь ключевых персонажей — от гения-миллиардера до мастера мистических искусств. Оценки субъективны, но основаны на фанатском консенсусе.</p>
   </section>
 
-  <!-- КАРТОЧКИ ГЕРОЕВ -->
+  <!-- КАРТОЧКИ ГЕРОЕВ (ДОБАВЛЕНЫ data-target) -->
   <section id="heroes">
     <h2>Герои</h2>
     <div class="cards-grid">
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="tony-stark">
         <img class="hero-photo" src="images/tony-stark.jpg" alt="Тони Старк" loading="lazy" decoding="async">
         <h3>Тони Старк</h3>
         <div class="hero-alias">Железный человек</div>
@@ -686,7 +701,7 @@
         <div class="power-level">Сила: 88/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="bruce-banner">
         <img class="hero-photo" src="images/bruce-banner.jpg" alt="Брюс Беннер" loading="lazy" decoding="async">
         <h3>Брюс Беннер</h3>
         <div class="hero-alias">Халк</div>
@@ -694,7 +709,7 @@
         <div class="power-level">Сила: 98/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="thor">
         <img class="hero-photo" src="images/thor.jpg" alt="Тор" loading="lazy" decoding="async">
         <h3>Тор</h3>
         <div class="hero-alias">Бог грома</div>
@@ -702,7 +717,7 @@
         <div class="power-level">Сила: 96/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="natasha-romanoff">
         <img class="hero-photo" src="images/natasha-romanoff.jpg" alt="Наташа Романофф" loading="lazy" decoding="async">
         <h3>Наташа Романофф</h3>
         <div class="hero-alias">Черная вдова</div>
@@ -710,7 +725,7 @@
         <div class="power-level">Сила: 72/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="clint-barton">
         <img class="hero-photo" src="images/clint-barton.jpg" alt="Клинт Бартон" loading="lazy" decoding="async">
         <h3>Клинт Бартон</h3>
         <div class="hero-alias">Соколиный глаз</div>
@@ -718,7 +733,7 @@
         <div class="power-level">Сила: 70/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="steve-rogers">
         <img class="hero-photo" src="images/steve-rogers.jpg" alt="Стив Роджерс" loading="lazy" decoding="async">
         <h3>Стив Роджерс</h3>
         <div class="hero-alias">Капитан Америка</div>
@@ -726,7 +741,7 @@
         <div class="power-level">Сила: 84/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="peter-parker">
         <img class="hero-photo" src="images/peter-parker.jpg" alt="Питер Паркер" loading="lazy" decoding="async">
         <h3>Питер Паркер</h3>
         <div class="hero-alias">Человек-паук</div>
@@ -734,7 +749,7 @@
         <div class="power-level">Сила: 82/100</div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card" data-target="doctor-strange">
         <img class="hero-photo" src="images/doctor-strange.jpg" alt="Доктор Стрэндж" loading="lazy" decoding="async">
         <h3>Доктор Стрэндж</h3>
         <div class="hero-alias">Верховный маг</div>
@@ -745,12 +760,12 @@
     </div>
   </section>
 
-  <!-- РЕЙТИНГ СИЛЫ -->
+  <!-- РЕЙТИНГ СИЛЫ (ДОБАВЛЕНЫ id) -->
   <section id="rating" class="rating-section">
     <h2>Рейтинг силы</h2>
     <div class="rating-list">
 
-      <div class="rating-item high">
+      <div class="rating-item high" id="rating-bruce-banner">
         <div class="hero-info">
           <img class="hero-avatar" src="images/bruce-banner.jpg" alt="" loading="lazy" decoding="async">
           Брюс Беннер (Халк)
@@ -758,7 +773,7 @@
         <div class="power-score">98/100</div>
       </div>
 
-      <div class="rating-item high">
+      <div class="rating-item high" id="rating-thor">
         <div class="hero-info">
           <img class="hero-avatar" src="images/thor.jpg" alt="" loading="lazy" decoding="async">
           Тор
@@ -766,7 +781,7 @@
         <div class="power-score">96/100</div>
       </div>
 
-      <div class="rating-item high">
+      <div class="rating-item high" id="rating-doctor-strange">
         <div class="hero-info">
           <img class="hero-avatar" src="images/doctor-strange.jpg" alt="" loading="lazy" decoding="async">
           Доктор Стрэндж
@@ -774,7 +789,7 @@
         <div class="power-score">94/100</div>
       </div>
 
-      <div class="rating-item high">
+      <div class="rating-item high" id="rating-tony-stark">
         <div class="hero-info">
           <img class="hero-avatar" src="images/tony-stark.jpg" alt="" loading="lazy" decoding="async">
           Тони Старк
@@ -782,7 +797,7 @@
         <div class="power-score">88/100</div>
       </div>
 
-      <div class="rating-item medium">
+      <div class="rating-item medium" id="rating-steve-rogers">
         <div class="hero-info">
           <img class="hero-avatar" src="images/steve-rogers.jpg" alt="" loading="lazy" decoding="async">
           Стив Роджерс
@@ -790,7 +805,7 @@
         <div class="power-score">84/100</div>
       </div>
 
-      <div class="rating-item medium">
+      <div class="rating-item medium" id="rating-peter-parker">
         <div class="hero-info">
           <img class="hero-avatar" src="images/peter-parker.jpg" alt="" loading="lazy" decoding="async">
           Питер Паркер
@@ -798,7 +813,7 @@
         <div class="power-score">82/100</div>
       </div>
 
-      <div class="rating-item low">
+      <div class="rating-item low" id="rating-natasha-romanoff">
         <div class="hero-info">
           <img class="hero-avatar" src="images/natasha-romanoff.jpg" alt="" loading="lazy" decoding="async">
           Наташа Романофф
@@ -806,7 +821,7 @@
         <div class="power-score">72/100</div>
       </div>
 
-      <div class="rating-item low">
+      <div class="rating-item low" id="rating-clint-barton">
         <div class="hero-info">
           <img class="hero-avatar" src="images/clint-barton.jpg" alt="" loading="lazy" decoding="async">
           Клинт Бартон
@@ -835,6 +850,35 @@
   <footer class="site-footer">
     Ⓒ 2025 Фанатский рейтинг Marvel. Все персонажи принадлежат Marvel Studios.
   </footer>
+
+  <!-- СКРИПТ ДЛЯ ОБРАБОТКИ КЛИКОВ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Находим все карточки и все элементы рейтинга
+      const heroCards = document.querySelectorAll('.hero-card');
+      const ratingItems = document.querySelectorAll('.rating-item');
+
+      heroCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Получаем ID героя из атрибута data-target карточки
+          const targetId = card.getAttribute('data-target');
+          // Находим соответствующую строку в рейтинге
+          const targetRatingItem = document.getElementById('rating-' + targetId);
+
+          if (targetRatingItem) {
+            // Убираем синюю подсветку у всех строк
+            ratingItems.forEach(item => item.classList.remove('blue-highlight'));
+            
+            // Добавляем синюю подсветку нужной строке
+            targetRatingItem.classList.add('blue-highlight');
+
+            // Плавно скроллим страницу к этой строке
+            targetRatingItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
