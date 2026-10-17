@@ -10,18 +10,13 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    html {
       scroll-behavior: smooth;
+      scroll-padding-top: 90px;
     }
 
-    body {
-      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-      background-color: #0b0f1c; /* глубокий темно-синий/графит */
-      color: #e5e9f0;
-      line-height: 1.5;
-      padding-top: 70px; /* под фиксированную навигацию */
-    }
-
-    /* ===== ЦВЕТОВЫЕ АКЦЕНТЫ MARVEL ===== */
     :root {
       --marvel-red: #e62429;
       --marvel-gold: #f0b323;
@@ -30,6 +25,14 @@
       --card-bg: #1b212e;
       --text-light: #eef2f8;
       --text-dim: #b0b8c5;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      background-color: #0b0f1c;
+      color: #e5e9f0;
+      line-height: 1.5;
+      padding-top: 70px;
     }
 
     /* ===== ФИКСИРОВАННАЯ НАВИГАЦИЯ ===== */
@@ -45,6 +48,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
       padding: 0 5%;
       z-index: 1000;
       border-bottom: 2px solid var(--marvel-red);
@@ -61,6 +65,7 @@
       text-transform: uppercase;
       color: white;
       text-shadow: 0 0 8px var(--marvel-red);
+      flex-shrink: 0;
     }
 
     .logo span {
@@ -73,6 +78,12 @@
       display: flex;
       gap: 2rem;
       font-weight: 600;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+      display: none;
     }
 
     .nav-links a {
@@ -83,6 +94,8 @@
       padding: 6px 2px;
       border-bottom: 2px solid transparent;
       transition: 0.25s ease;
+      flex: 0 0 auto;
+      white-space: nowrap;
     }
 
     .nav-links a:hover {
@@ -91,11 +104,18 @@
       text-shadow: 0 0 10px rgba(240, 179, 35, 0.5);
     }
 
+    a:focus-visible,
+    .btn-cta:focus-visible {
+      outline: 3px solid var(--marvel-gold);
+      outline-offset: 3px;
+    }
+
     /* ===== ОБЩИЕ СЕКЦИИ ===== */
     section {
       padding: 4rem 5%;
       max-width: 1300px;
       margin: 0 auto;
+      scroll-margin-top: 90px;
     }
 
     h2 {
@@ -107,6 +127,7 @@
       border-left: 6px solid var(--marvel-red);
       padding-left: 1rem;
       text-transform: uppercase;
+      color: #ffffff;
       background: linear-gradient(135deg, #ffffff, #b0c2da);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -145,6 +166,7 @@
       font-weight: 800;
       line-height: 1.2;
       text-transform: uppercase;
+      color: #ffffff;
       background: linear-gradient(135deg, #fff 20%, var(--marvel-gold) 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -227,6 +249,7 @@
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       position: relative;
       overflow: hidden;
     }
@@ -253,10 +276,17 @@
       opacity: 1;
     }
 
-    .hero-emoji {
-      font-size: 3rem;
-      margin-bottom: 0.8rem;
-      filter: drop-shadow(0 0 10px rgba(230, 36, 41, 0.5));
+    .hero-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      margin-bottom: 1rem;
+      border: 3px solid var(--marvel-red);
+      box-shadow: 0 0 18px rgba(230, 36, 41, 0.55);
+      background: #0e131f;
     }
 
     .hero-card h3 {
@@ -339,8 +369,15 @@
       font-size: 1.15rem;
     }
 
-    .hero-info span:first-child {
-      font-size: 1.6rem;
+    .hero-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      flex-shrink: 0;
+      border: 2px solid #34425b;
+      background: #0e131f;
     }
 
     .power-score {
@@ -352,11 +389,11 @@
       color: white;
     }
 
-    /* Цветовые индикаторы */
     .high {
       border-left-color: #2ecc71;
       box-shadow: 0 0 12px rgba(46, 204, 113, 0.3);
     }
+
     .high .power-score {
       color: #2ecc71;
       text-shadow: 0 0 6px #2ecc71;
@@ -366,6 +403,7 @@
       border-left-color: #f1c40f;
       box-shadow: 0 0 12px rgba(241, 196, 15, 0.3);
     }
+
     .medium .power-score {
       color: #f1c40f;
       text-shadow: 0 0 6px #f1c40f;
@@ -375,9 +413,19 @@
       border-left-color: #e74c3c;
       box-shadow: 0 0 12px rgba(231, 76, 60, 0.3);
     }
+
     .low .power-score {
       color: #e74c3c;
       text-shadow: 0 0 6px #e74c3c;
+    }
+
+    .rating-note {
+      margin-top: 1.5rem;
+      color: #7b8ba3;
+      font-size: 0.9rem;
+      text-align: right;
+      border-top: 1px solid #263040;
+      padding-top: 1rem;
     }
 
     /* ===== КОНТАКТЫ ===== */
@@ -391,6 +439,7 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 1.5rem;
     }
 
     .address {
@@ -434,6 +483,14 @@
       box-shadow: 0 8px 16px rgba(230, 36, 41, 0.5);
     }
 
+    .site-footer {
+      text-align: center;
+      padding: 2rem 5%;
+      color: #4b5a72;
+      font-size: 0.9rem;
+      border-top: 1px solid #1c2533;
+    }
+
     /* ===== АДАПТИВНОСТЬ ===== */
     @media (max-width: 800px) {
       body {
@@ -443,6 +500,7 @@
       .navbar {
         height: 60px;
         padding: 0 4%;
+        gap: 0.8rem;
       }
 
       .logo {
@@ -455,10 +513,11 @@
 
       .nav-links {
         gap: 1rem;
+        padding: 6px 0;
       }
 
       .nav-links a {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
       }
 
       h2 {
@@ -479,7 +538,7 @@
       }
 
       .cards-grid {
-        grid-template-columns: 1fr; /* одна колонка на мобильных */
+        grid-template-columns: 1fr;
         gap: 1.5rem;
       }
 
@@ -501,7 +560,6 @@
 
       .contacts-section {
         flex-direction: column;
-        gap: 1.5rem;
         align-items: flex-start;
       }
 
@@ -513,6 +571,10 @@
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
       }
+
+      .rating-note {
+        text-align: left;
+      }
     }
 
     @media (max-width: 480px) {
@@ -521,7 +583,7 @@
       }
 
       .nav-links a {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
       }
 
       .logo {
@@ -535,14 +597,21 @@
       .about-section p {
         font-size: 1rem;
       }
+
+      .hero-photo {
+        width: 90px;
+        height: 90px;
+      }
     }
 
     /* ===== ДОПОЛНИТЕЛЬНЫЕ ПЛАВНЫЕ ДЕТАЛИ ===== */
-    .hero-card, .rating-item, .btn-cta, .social-links a {
+    .hero-card,
+    .rating-item,
+    .btn-cta,
+    .social-links a {
       will-change: transform, box-shadow;
     }
 
-    /* Кастомный скроллбар (для атмосферы) */
     ::-webkit-scrollbar {
       width: 8px;
       background: #0b0f1c;
@@ -556,14 +625,29 @@
     ::-webkit-scrollbar-thumb:hover {
       background: var(--marvel-gold);
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- НАВИГАЦИЯ -->
-  <nav class="navbar">
+  <nav class="navbar" aria-label="Основная навигация">
     <div class="logo">
-      <span>Ⓜ</span> MARVEL RANK
+      <span aria-hidden="true">Ⓜ</span> MARVEL RANK
     </div>
     <div class="nav-links">
       <a href="#about">О проекте</a>
@@ -591,137 +675,162 @@
   <section id="heroes">
     <h2>Герои</h2>
     <div class="cards-grid">
-      <!-- Тони Старк -->
+
       <div class="hero-card">
-        <div class="hero-emoji">🤖</div>
+        <img class="hero-photo" src="images/tony-stark.jpg" alt="Тони Старк" loading="lazy" decoding="async">
         <h3>Тони Старк</h3>
         <div class="hero-alias">Железный человек</div>
         <p class="hero-desc">Гений, миллиардер, филантроп. Экзокостюмы с ИИ, репульсоры, полёт, сверхпрочная броня.</p>
         <div class="power-level">Сила: 88/100</div>
       </div>
-      <!-- Брюс Беннер / Халк -->
+
       <div class="hero-card">
-        <div class="hero-emoji">💚</div>
+        <img class="hero-photo" src="images/bruce-banner.jpg" alt="Брюс Беннер" loading="lazy" decoding="async">
         <h3>Брюс Беннер</h3>
         <div class="hero-alias">Халк</div>
         <p class="hero-desc">Невероятная сила, регенерация, выносливость. Чем злее — тем мощнее. Разрушитель планет.</p>
         <div class="power-level">Сила: 98/100</div>
       </div>
-      <!-- Тор -->
+
       <div class="hero-card">
-        <div class="hero-emoji">⚡</div>
+        <img class="hero-photo" src="images/thor.jpg" alt="Тор" loading="lazy" decoding="async">
         <h3>Тор</h3>
         <div class="hero-alias">Бог грома</div>
         <p class="hero-desc">Управление молниями, божественная сила, полёт, тысячелетний опыт. Мьёльнир и Громсекира.</p>
         <div class="power-level">Сила: 96/100</div>
       </div>
-      <!-- Наташа Романофф -->
+
       <div class="hero-card">
-        <div class="hero-emoji">🕷️</div>
+        <img class="hero-photo" src="images/natasha-romanoff.jpg" alt="Наташа Романофф" loading="lazy" decoding="async">
         <h3>Наташа Романофф</h3>
         <div class="hero-alias">Черная вдова</div>
         <p class="hero-desc">Мастер шпионажа, акробатика, боевые искусства. Ум, ловкость и «укус вдовы».</p>
         <div class="power-level">Сила: 72/100</div>
       </div>
-      <!-- Клинт Бартон -->
+
       <div class="hero-card">
-        <div class="hero-emoji">🏹</div>
+        <img class="hero-photo" src="images/clint-barton.jpg" alt="Клинт Бартон" loading="lazy" decoding="async">
         <h3>Клинт Бартон</h3>
         <div class="hero-alias">Соколиный глаз</div>
         <p class="hero-desc">Идеальный стрелок, тактик, рукопашный бой. Различные стрелы и невероятная точность.</p>
         <div class="power-level">Сила: 70/100</div>
       </div>
-      <!-- Стив Роджерс -->
+
       <div class="hero-card">
-        <div class="hero-emoji">🛡️</div>
+        <img class="hero-photo" src="images/steve-rogers.jpg" alt="Стив Роджерс" loading="lazy" decoding="async">
         <h3>Стив Роджерс</h3>
         <div class="hero-alias">Капитан Америка</div>
         <p class="hero-desc">Пик человеческой формы, несокрушимая воля, мастер щита. Лидер и стратег.</p>
         <div class="power-level">Сила: 84/100</div>
       </div>
-      <!-- Питер Паркер -->
+
       <div class="hero-card">
-        <div class="hero-emoji">🕸️</div>
+        <img class="hero-photo" src="images/peter-parker.jpg" alt="Питер Паркер" loading="lazy" decoding="async">
         <h3>Питер Паркер</h3>
         <div class="hero-alias">Человек-паук</div>
         <p class="hero-desc">Паучье чутьё, суперсила, ловкость, способность лазать по стенам. Гений-самоучка.</p>
         <div class="power-level">Сила: 82/100</div>
       </div>
-      <!-- Доктор Стрэндж -->
+
       <div class="hero-card">
-        <div class="hero-emoji">🔮</div>
+        <img class="hero-photo" src="images/doctor-strange.jpg" alt="Доктор Стрэндж" loading="lazy" decoding="async">
         <h3>Доктор Стрэндж</h3>
         <div class="hero-alias">Верховный маг</div>
         <p class="hero-desc">Магия, телепортация, управление временем, астральная проекция. Глаз Агамотто.</p>
         <div class="power-level">Сила: 94/100</div>
       </div>
+
     </div>
   </section>
 
-  <!-- РЕЙТИНГ СИЛЫ (ОТСОРТИРОВАН) -->
+  <!-- РЕЙТИНГ СИЛЫ -->
   <section id="rating" class="rating-section">
     <h2>Рейтинг силы</h2>
     <div class="rating-list">
-      <!-- 1. Халк (98) -->
+
       <div class="rating-item high">
-        <div class="hero-info"><span>💚</span> Брюс Беннер (Халк)</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/bruce-banner.jpg" alt="" loading="lazy" decoding="async">
+          Брюс Беннер (Халк)
+        </div>
         <div class="power-score">98/100</div>
       </div>
-      <!-- 2. Тор (96) -->
+
       <div class="rating-item high">
-        <div class="hero-info"><span>⚡</span> Тор</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/thor.jpg" alt="" loading="lazy" decoding="async">
+          Тор
+        </div>
         <div class="power-score">96/100</div>
       </div>
-      <!-- 3. Доктор Стрэндж (94) -->
+
       <div class="rating-item high">
-        <div class="hero-info"><span>🔮</span> Доктор Стрэндж</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/doctor-strange.jpg" alt="" loading="lazy" decoding="async">
+          Доктор Стрэндж
+        </div>
         <div class="power-score">94/100</div>
       </div>
-      <!-- 4. Тони Старк (88) -->
+
       <div class="rating-item high">
-        <div class="hero-info"><span>🤖</span> Тони Старк</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/tony-stark.jpg" alt="" loading="lazy" decoding="async">
+          Тони Старк
+        </div>
         <div class="power-score">88/100</div>
       </div>
-      <!-- 5. Стив Роджерс (84) — средний высокий, оставим yellow? Ближе к высокому, но пусть будет зеленовато-жёлтый? Для разнообразия сделаем medium (жёлтый) -->
+
       <div class="rating-item medium">
-        <div class="hero-info"><span>🛡️</span> Стив Роджерс</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/steve-rogers.jpg" alt="" loading="lazy" decoding="async">
+          Стив Роджерс
+        </div>
         <div class="power-score">84/100</div>
       </div>
-      <!-- 6. Питер Паркер (82) -->
+
       <div class="rating-item medium">
-        <div class="hero-info"><span>🕸️</span> Питер Паркер</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/peter-parker.jpg" alt="" loading="lazy" decoding="async">
+          Питер Паркер
+        </div>
         <div class="power-score">82/100</div>
       </div>
-      <!-- 7. Наташа Романофф (72) -->
+
       <div class="rating-item low">
-        <div class="hero-info"><span>🕷️</span> Наташа Романофф</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/natasha-romanoff.jpg" alt="" loading="lazy" decoding="async">
+          Наташа Романофф
+        </div>
         <div class="power-score">72/100</div>
       </div>
-      <!-- 8. Клинт Бартон (70) -->
+
       <div class="rating-item low">
-        <div class="hero-info"><span>🏹</span> Клинт Бартон</div>
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/clint-barton.jpg" alt="" loading="lazy" decoding="async">
+          Клинт Бартон
+        </div>
         <div class="power-score">70/100</div>
       </div>
+
     </div>
-    <p style="margin-top: 1.5rem; color: #7b8ba3; font-size: 0.9rem; text-align: right; border-top: 1px solid #263040; padding-top: 1rem;">* Оценки основаны на фанатском анализе. Зелёный — высокий, жёлтый — средний, красный — низкий.</p>
+    <p class="rating-note">* Оценки основаны на фанатском анализе. Зелёный — высокий, жёлтый — средний, красный — низкий.</p>
   </section>
 
   <!-- КОНТАКТЫ -->
   <section id="contacts" class="contacts-section">
     <div class="address">
-      <span>🏢</span>
+      <span aria-hidden="true">🏢</span>
       Башня Мстителей, Нью-Йорк
     </div>
     <div class="social-links">
-      <a href="#">🐦 Twitter</a>
-      <a href="#">📸 Instagram</a>
-      <a href="#">▶️ YouTube</a>
-      <a href="#">💬 Discord</a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">🐦 Twitter</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+      <a href="https://discord.com" target="_blank" rel="noopener noreferrer">💬 Discord</a>
     </div>
   </section>
 
-  <!-- Подвал для завершённости -->
-  <footer style="text-align: center; padding: 2rem 5%; color: #4b5a72; font-size: 0.9rem; border-top: 1px solid #1c2533;">
+  <footer class="site-footer">
     Ⓒ 2025 Фанатский рейтинг Marvel. Все персонажи принадлежат Marvel Studios.
   </footer>
 
