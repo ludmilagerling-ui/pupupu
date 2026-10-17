@@ -1,591 +1,884 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marvel Heroes Rating</title>
-    <style>
-        /* Сброс стандартных отступов */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Киновселенная Marvel · Рейтинг героев</title>
+  <style>
+    /* ===== RESET & БАЗОВЫЕ СТИЛИ ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Основные переменные цветов и шрифтов */
-        :root {
-            --bg-main: #0a0f1a;
-            --bg-dark: #121a2a;
-            --text-light: #f0f0f0;
-            --text-medium: #a0a0a0;
-            --accent-red: #e23636;
-            --accent-gold: #ffd700;
-            --accent-silver: #c0c0c0;
-            --accent-bronze: #cd7f32;
-            --border-color: #333;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
 
-        html {
-            /* Чтобы якорные ссылки не прятались под фиксированную навигацию */
-            scroll-padding-top: 80px;
-        }
+    :root {
+      --marvel-red: #e62429;
+      --marvel-gold: #f0b323;
+      --graphite: #1e2430;
+      --dark-blue: #0f1624;
+      --card-bg: #1b212e;
+      --text-light: #eef2f8;
+      --text-dim: #b0b8c5;
+    }
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      background-color: #0b0f1c;
+      color: #e5e9f0;
+      line-height: 1.5;
+      padding-top: 70px;
+    }
 
-        /* Навигация */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 15, 26, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 5%;
-        }
+    /* ===== ФИКСИРОВАННАЯ НАВИГАЦИЯ ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background: rgba(10, 14, 23, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0 5%;
+      z-index: 1000;
+      border-bottom: 2px solid var(--marvel-red);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+    }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: white;
+      text-shadow: 0 0 8px var(--marvel-red);
+      flex-shrink: 0;
+    }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-gold);
-        }
+    .logo span {
+      color: var(--marvel-red);
+      font-size: 2rem;
+      line-height: 1;
+    }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-weight: 600;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
 
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
 
-        .nav-links a:hover {
-            color: var(--accent-red);
-        }
+    .nav-links a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      padding: 6px 2px;
+      border-bottom: 2px solid transparent;
+      transition: 0.25s ease;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
 
-        /* Главный экран */
-        .hero {
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a0a1f 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 5%;
-        }
+    .nav-links a:hover {
+      color: var(--marvel-gold);
+      border-bottom-color: var(--marvel-gold);
+      text-shadow: 0 0 10px rgba(240, 179, 35, 0.5);
+    }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+    a:focus-visible,
+    .btn-cta:focus-visible {
+      outline: 3px solid var(--marvel-gold);
+      outline-offset: 3px;
+    }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            color: var(--text-medium);
-            margin-bottom: 2rem;
-        }
+    /* ===== ОБЩИЕ СЕКЦИИ ===== */
+    section {
+      padding: 4rem 5%;
+      max-width: 1300px;
+      margin: 0 auto;
+      scroll-margin-top: 90px;
+    }
 
-        .cta-button {
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 20px rgba(226, 54, 54, 0.4);
-        }
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 2rem;
+      display: inline-block;
+      border-left: 6px solid var(--marvel-red);
+      padding-left: 1rem;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: linear-gradient(135deg, #ffffff, #b0c2da);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-        .cta-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 0 30px rgba(226, 54, 54, 0.6);
-        }
+    /* ===== ГЛАВНЫЙ РАЗДЕЛ (HERO) ===== */
+    .hero-section {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at 30% 20%, #1e2a3a 0%, #0b0f1c 80%);
+      border-radius: 0 0 40px 40px;
+      margin-bottom: 2rem;
+      padding: 2rem 5%;
+      position: relative;
+      overflow: hidden;
+    }
 
-        /* Секции */
-        .section {
-            padding: 80px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .hero-section::before {
+      content: "⚡";
+      position: absolute;
+      font-size: 22rem;
+      opacity: 0.03;
+      bottom: -60px;
+      right: -40px;
+      transform: rotate(15deg);
+      pointer-events: none;
+    }
 
-        .section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            position: relative;
-        }
+    .hero-section h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: linear-gradient(135deg, #fff 20%, var(--marvel-gold) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px rgba(230, 36, 41, 0.4);
+      max-width: 1000px;
+      margin-bottom: 1.5rem;
+      letter-spacing: -1px;
+    }
 
-        .section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
-            border-radius: 2px;
-        }
+    .hero-section p {
+      font-size: 1.3rem;
+      color: #cbd5e6;
+      max-width: 700px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
 
-        .about-text {
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--text-medium);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
+    .btn-cta {
+      display: inline-block;
+      background: var(--marvel-red);
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 1rem 3rem;
+      border-radius: 50px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border: 2px solid transparent;
+      transition: 0.3s ease;
+      box-shadow: 0 0 18px rgba(230, 36, 41, 0.7);
+      cursor: pointer;
+    }
 
-        /* Карточки героев */
-        .heroes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
+    .btn-cta:hover {
+      background: transparent;
+      color: var(--marvel-gold);
+      border-color: var(--marvel-gold);
+      box-shadow: 0 0 28px var(--marvel-gold);
+      transform: scale(1.05);
+    }
 
-        .hero-card {
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
+    /* ===== О ПРОЕКТЕ ===== */
+    .about-section {
+      background: var(--graphite);
+      border-radius: 30px;
+      padding: 3rem 4%;
+      margin: 2rem auto;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+      border: 1px solid #2e3849;
+    }
 
-        .hero-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
-        }
+    .about-section p {
+      font-size: 1.2rem;
+      color: #d3dcec;
+      max-width: 900px;
+      margin-bottom: 1rem;
+    }
 
-        .hero-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
+    .about-section .highlight {
+      color: var(--marvel-gold);
+      font-weight: 600;
+    }
 
-        .hero-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--accent-gold);
-        }
+    /* ===== СЕТКА КАРТОЧЕК ГЕРОЕВ ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
 
-        .hero-desc {
-            font-size: 0.95rem;
-            color: var(--text-medium);
-            margin-bottom: 1.5rem;
-        }
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 1.8rem 1.4rem;
+      border: 1px solid #2e3a4e;
+      box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.8);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer; /* Добавили курсор-руку */
+    }
 
-        .power-level {
-            display: inline-block;
-            background: rgba(226, 54, 54, 0.2);
-            color: var(--accent-red);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            border: 1px solid var(--accent-red);
-        }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--marvel-red), var(--marvel-gold));
+      opacity: 0;
+      transition: 0.4s;
+    }
 
-        /* Рейтинг силы */
-        .ranking-list {
-            list-style: none;
-        }
+    .hero-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--marvel-gold);
+      box-shadow: 0 0 30px rgba(240, 179, 35, 0.3), 0 15px 30px -10px black;
+    }
 
-        .ranking-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            background: var(--bg-dark);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            border-left: 5px solid;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .hero-card:hover::after {
+      opacity: 1;
+    }
 
-        .ranking-item:hover {
-            transform: translateX(6px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-        }
+    /* ИЗМЕНЕННЫЕ РАМКИ ДЛЯ ФОТО */
+    .hero-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      margin-bottom: 1rem;
+      border: 3px solid #00aaff; /* СИНЯЯ РАМКА */
+      box-shadow: 0 0 18px rgba(0, 170, 255, 0.55); /* СИНЕЕ СВЕЧЕНИЕ */
+      background: #0e131f;
+    }
 
-        /* Медали топ-3 */
-        .ranking-item:nth-child(1) { border-left-color: var(--accent-gold); }
-        .ranking-item:nth-child(2) { border-left-color: var(--accent-silver); }
-        .ranking-item:nth-child(3) { border-left-color: var(--accent-bronze); }
+    .hero-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.5px;
+    }
 
-        .ranking-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            min-width: 0;
-        }
+    .hero-alias {
+      font-size: 0.9rem;
+      color: var(--marvel-gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+    }
 
-        .rank-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            width: 36px;
-            height: 36px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent-red);
-            color: white;
-            border-radius: 50%;
-        }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: #b8c4d9;
+      margin-bottom: 1.2rem;
+      flex-grow: 1;
+      line-height: 1.45;
+    }
 
-        .ranking-item:nth-child(1) .rank-number {
-            background: var(--accent-gold);
-            color: #1a1a1a;
-        }
+    .power-level {
+      background: #0e131f;
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      display: inline-block;
+      border: 1px solid #34425b;
+      color: var(--marvel-gold);
+      letter-spacing: 0.5px;
+      text-align: center;
+      margin-top: auto;
+    }
 
-        .ranking-item:nth-child(2) .rank-number {
-            background: var(--accent-silver);
-            color: #1a1a1a;
-        }
+    /* ===== РАЗДЕЛ РЕЙТИНГА ===== */
+    .rating-section {
+      background: linear-gradient(145deg, #111826, #0b0f1c);
+      border-radius: 30px;
+      padding: 2rem 4%;
+      margin: 3rem auto;
+      border: 1px solid #263040;
+    }
 
-        .ranking-item:nth-child(3) .rank-number {
-            background: var(--accent-bronze);
-            color: #1a1a1a;
-        }
+    .rating-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
 
-        .rank-name {
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .rating-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      padding: 1rem 1.5rem;
+      border-radius: 60px;
+      border-left: 10px solid;
+      transition: 0.4s ease; /* Плавный переход для подсветки */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    }
 
-        .rank-bar {
-            width: 150px;
-            height: 8px;
-            background: #333;
-            border-radius: 4px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
+    .rating-item:hover {
+      background: #242d3d;
+      transform: translateX(6px);
+    }
 
-        .rank-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease-in-out;
-        }
+    .hero-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
 
-        /* Единая цветовая шкала рейтинга */
-        .rank-fill.gold   { background: var(--accent-gold); }
-        .rank-fill.silver { background: var(--accent-silver); }
-        .rank-fill.bronze { background: var(--accent-bronze); }
-        .rank-fill.high   { background: #66bb6a; }
-        .rank-fill.mid    { background: var(--accent-gold); }
-        .rank-fill.low    { background: #ff6b6b; }
+    /* ИЗМЕНЕННЫЕ РАМКИ ДЛЯ МАЛЕНЬКИХ АВАТАРОК */
+    .hero-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      flex-shrink: 0;
+      border: 2px solid #00aaff; /* СИНЯЯ РАМКА */
+      background: #0e131f;
+    }
 
-        .rank-score {
-            font-weight: bold;
-            min-width: 28px;
-            text-align: right;
-        }
+    .power-score {
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: #0e131f;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      color: white;
+      transition: 0.4s ease;
+    }
 
-        .rank-score.gold   { color: var(--accent-gold); }
-        .rank-score.silver { color: var(--accent-silver); }
-        .rank-score.bronze { color: var(--accent-bronze); }
-        .rank-score.high   { color: #66bb6a; }
-        .rank-score.mid    { color: var(--accent-gold); }
-        .rank-score.low    { color: #ff6b6b; }
+    .high {
+      border-left-color: #2ecc71;
+      box-shadow: 0 0 12px rgba(46, 204, 113, 0.3);
+    }
 
-        /* Контакты */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
+    .high .power-score {
+      color: #2ecc71;
+      text-shadow: 0 0 6px #2ecc71;
+    }
 
-        .contact-info p {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
+    .medium {
+      border-left-color: #f1c40f;
+      box-shadow: 0 0 12px rgba(241, 196, 15, 0.3);
+    }
 
-        .social-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1.5rem;
-            margin-right: 1.5rem;
-            transition: color 0.3s;
-        }
+    .medium .power-score {
+      color: #f1c40f;
+      text-shadow: 0 0 6px #f1c40f;
+    }
 
-        .social-links a:hover {
-            color: var(--accent-gold);
-        }
+    .low {
+      border-left-color: #e74c3c;
+      box-shadow: 0 0 12px rgba(231, 76, 60, 0.3);
+    }
 
-        /* Футер */
-        footer {
-            background: var(--bg-dark);
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-medium);
-        }
+    .low .power-score {
+      color: #e74c3c;
+      text-shadow: 0 0 6px #e74c3c;
+    }
 
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
+    /* ===== НОВЫЙ КЛАСС ДЛЯ СИНЕЙ ПОДСВЕТКИ РЕЙТИНГА ===== */
+    .rating-item.blue-highlight {
+      border-left-color: #00aaff;
+      box-shadow: 0 0 25px rgba(0, 170, 255, 0.6);
+      background: #1c2b3d; /* Немного синеватый фон */
+      transform: translateX(10px) scale(1.02);
+    }
 
-            .nav-links {
-                gap: 1rem;
-            }
+    .rating-item.blue-highlight .power-score {
+      color: #00aaff;
+      text-shadow: 0 0 8px #00aaff;
+    }
 
-            .contact-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
+    .rating-note {
+      margin-top: 1.5rem;
+      color: #7b8ba3;
+      font-size: 0.9rem;
+      text-align: right;
+      border-top: 1px solid #263040;
+      padding-top: 1rem;
+    }
 
-            .ranking-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+    /* ===== КОНТАКТЫ ===== */
+    .contacts-section {
+      background: var(--graphite);
+      border-radius: 30px;
+      padding: 2.5rem 4%;
+      margin: 2rem auto 3rem;
+      border: 1px solid #2e3a4e;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
 
-            .rank-bar {
-                width: 100%;
-            }
-        }
+    .address {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #dce3f0;
+    }
 
-        @media (max-width: 480px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
+    .address span:first-child {
+      font-size: 2.2rem;
+    }
 
-            .hero-card {
-                padding: 1.5rem;
-            }
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
 
-            .nav-links {
-                display: none;
-            }
-        }
-    </style>
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #1d2533;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      color: #f0f4fc;
+      text-decoration: none;
+      font-weight: 500;
+      border: 1px solid #3b4a62;
+      transition: 0.25s;
+      font-size: 1rem;
+    }
+
+    .social-links a:hover {
+      background: var(--marvel-red);
+      border-color: var(--marvel-red);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(230, 36, 41, 0.5);
+    }
+
+    .site-footer {
+      text-align: center;
+      padding: 2rem 5%;
+      color: #4b5a72;
+      font-size: 0.9rem;
+      border-top: 1px solid #1c2533;
+    }
+
+    /* ===== АДАПТИВНОСТЬ ===== */
+    @media (max-width: 800px) {
+      body {
+        padding-top: 60px;
+      }
+
+      .navbar {
+        height: 60px;
+        padding: 0 4%;
+        gap: 0.8rem;
+      }
+
+      .logo {
+        font-size: 1.2rem;
+      }
+
+      .logo span {
+        font-size: 1.5rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+        padding: 6px 0;
+      }
+
+      .nav-links a {
+        font-size: 0.85rem;
+      }
+
+      h2 {
+        font-size: 1.7rem;
+      }
+
+      .hero-section h1 {
+        font-size: 2rem;
+      }
+
+      .hero-section p {
+        font-size: 1rem;
+      }
+
+      .btn-cta {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .rating-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        border-radius: 20px;
+        padding: 1rem 1.2rem;
+      }
+
+      .hero-info {
+        font-size: 1rem;
+      }
+
+      .power-score {
+        align-self: flex-end;
+      }
+
+      .contacts-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .address {
+        font-size: 1rem;
+      }
+
+      .social-links a {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .rating-note {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links {
+        gap: 0.7rem;
+      }
+
+      .nav-links a {
+        font-size: 0.75rem;
+      }
+
+      .logo {
+        font-size: 1rem;
+      }
+
+      section {
+        padding: 2.5rem 4%;
+      }
+
+      .about-section p {
+        font-size: 1rem;
+      }
+
+      .hero-photo {
+        width: 90px;
+        height: 90px;
+      }
+    }
+
+    /* ===== ДОПОЛНИТЕЛЬНЫЕ ПЛАВНЫЕ ДЕТАЛИ ===== */
+    .hero-card,
+    .rating-item,
+    .btn-cta,
+    .social-links a {
+      will-change: transform, box-shadow;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      background: #0b0f1c;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--marvel-red);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--marvel-gold);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header class="navbar">
-    <nav class="nav-container">
-        <div class="logo">⚡ Marvel Rating</div>
-        <ul class="nav-links">
-            <li><a href="#about">О проекте</a></li>
-            <li><a href="#heroes">Герои</a></li>
-            <li><a href="#ranking">Рейтинг</a></li>
-            <li><a href="#contact">Контакты</a></li>
-        </ul>
-    </nav>
-</header>
-
-<section class="hero">
-    <div class="hero-content">
-        <h1>Кто самый сильный герой?</h1>
-        <p>Фанатский рейтинг персонажей киновселенной Marvel на основе их экранных достижений.</p>
-        <button class="cta-button" onclick="document.getElementById('ranking').scrollIntoView({behavior: 'smooth'})">
-            Узнать рейтинг ⚡
-        </button>
+  <!-- НАВИГАЦИЯ -->
+  <nav class="navbar" aria-label="Основная навигация">
+    <div class="logo">
+      <span aria-hidden="true">Ⓜ</span> MARVEL RANK
     </div>
-</section>
+    <div class="nav-links">
+      <a href="#about">О проекте</a>
+      <a href="#heroes">Герои</a>
+      <a href="#rating">Рейтинг</a>
+      <a href="#contacts">Контакты</a>
+    </div>
+  </nav>
 
-<section id="about" class="section">
+  <!-- ГЛАВНЫЙ РАЗДЕЛ -->
+  <section class="hero-section" id="home">
+    <h1>Кто самый сильный герой?</h1>
+    <p>Фанатский рейтинг силы персонажей киновселенной Marvel. Голосуй, сравнивай, спорь.</p>
+    <a href="#rating" class="btn-cta">Смотреть рейтинг</a>
+  </section>
+
+  <!-- О ПРОЕКТЕ -->
+  <section id="about" class="about-section">
     <h2>О проекте</h2>
-    <div class="about-text">
-        <p>Добро пожаловать в базу данных фанатов Marvel. Мы проанализировали сотни часов экранного времени,
-        спасенные миры и спасенные вселенные, чтобы составить объективный (насколько это возможно) рейтинг силы.
-        Здесь нет магии цифр из комиксов — только реальные достижения героев в киновселенной.</p>
-    </div>
-</section>
+    <p>Это <span class="highlight">фанатский рейтинг героев Marvel</span>, созданный для сравнения их силы, ловкости и интеллекта. Мы проанализировали сотни комиксов и фильмов, чтобы расставить приоритеты.</p>
+    <p>Здесь вы найдёте восемь ключевых персонажей — от гения-миллиардера до мастера мистических искусств. Оценки субъективны, но основаны на фанатском консенсусе.</p>
+  </section>
 
-<section id="heroes" class="section">
-    <h2>Карточки героев</h2>
-    <div class="heroes-grid">
-        <div class="hero-card">
-            <div class="hero-name">👁️ Доктор Стрэндж</div>
-            <div class="hero-desc">Верховный чародей Земли. Манипулирует временем, пространством и измерениями с помощью магии и артефактов. Остановил вторжение Дормамму и видел 14 000 605 исходов войны с Таносом.</div>
-            <div class="power-level">Сила: 100/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">⚡ Тор</div>
-            <div class="hero-desc">Бог грома из Асгарда. Владеет молниями, почти бессмертен и неуязвим. Мьёльнир и Штормбрейкер позволяют ему призывать Биврёст и сражаться с целыми армиями в одиночку.</div>
-            <div class="power-level">Сила: 99/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">🟢 Брюс Беннер</div>
-            <div class="hero-desc">Гений биохимии, превращающийся в Халка. Его сила растёт вместе с яростью и практически не имеет предела, а регенерация позволяет выживать даже в открытом космосе.</div>
-            <div class="power-level">Сила: 98/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">🦾 Тони Старк</div>
-            <div class="hero-desc">Гениальный инженер, миллиардер и изобретатель. Броня Mark LXXXV на нанотехнологиях даёт полёт, сверхсилу и огромный арсенал. Пожертвовал собой ради спасения вселенной.</div>
-            <div class="power-level">Сила: 85/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">🛡️ Стив Роджерс</div>
-            <div class="hero-desc">Первый Мститель. Сыворотка суперсолдата довела его тело до пика человеческих возможностей. Вибраниумный щит, лидерские качества и железная воля делают его символом надежды.</div>
-            <div class="power-level">Сила: 80/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">🕷️ Питер Паркер</div>
-            <div class="hero-desc">Человек-паук. Паучье чутьё, лазание по стенам, сверхчеловеческая сила и ловкость. Высокотехнологичный костюм и острое чувство ответственности — его главные козыри.</div>
-            <div class="power-level">Сила: 75/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">🖤 Наташа Романофф</div>
-            <div class="hero-desc">Чёрная вдова. Элитная шпионка мирового уровня и мастер рукопашного боя на пике человеческих возможностей. Пожертвовала собой на Вормире ради Камня Души.</div>
-            <div class="power-level">Сила: 70/100</div>
-        </div>
-        <div class="hero-card">
-            <div class="hero-name">🏹 Клинт Бартон</div>
-            <div class="hero-desc">Соколиный глаз. Лучший лучник в мире с идеальной меткостью и тактическим мышлением. В роли Ронина — безжалостный охотник на преступников.</div>
-            <div class="power-level">Сила: 65/100</div>
-        </div>
-    </div>
-</section>
+  <!-- КАРТОЧКИ ГЕРОЕВ (ДОБАВЛЕНЫ data-target) -->
+  <section id="heroes">
+    <h2>Герои</h2>
+    <div class="cards-grid">
 
-<section id="ranking" class="section">
+      <div class="hero-card" data-target="tony-stark">
+        <img class="hero-photo" src="images/tony-stark.jpg" alt="Тони Старк" loading="lazy" decoding="async">
+        <h3>Тони Старк</h3>
+        <div class="hero-alias">Железный человек</div>
+        <p class="hero-desc">Гений, миллиардер, филантроп. Экзокостюмы с ИИ, репульсоры, полёт, сверхпрочная броня.</p>
+        <div class="power-level">Сила: 88/100</div>
+      </div>
+
+      <div class="hero-card" data-target="bruce-banner">
+        <img class="hero-photo" src="images/bruce-banner.jpg" alt="Брюс Беннер" loading="lazy" decoding="async">
+        <h3>Брюс Беннер</h3>
+        <div class="hero-alias">Халк</div>
+        <p class="hero-desc">Невероятная сила, регенерация, выносливость. Чем злее — тем мощнее. Разрушитель планет.</p>
+        <div class="power-level">Сила: 98/100</div>
+      </div>
+
+      <div class="hero-card" data-target="thor">
+        <img class="hero-photo" src="images/thor.jpg" alt="Тор" loading="lazy" decoding="async">
+        <h3>Тор</h3>
+        <div class="hero-alias">Бог грома</div>
+        <p class="hero-desc">Управление молниями, божественная сила, полёт, тысячелетний опыт. Мьёльнир и Громсекира.</p>
+        <div class="power-level">Сила: 96/100</div>
+      </div>
+
+      <div class="hero-card" data-target="natasha-romanoff">
+        <img class="hero-photo" src="images/natasha-romanoff.jpg" alt="Наташа Романофф" loading="lazy" decoding="async">
+        <h3>Наташа Романофф</h3>
+        <div class="hero-alias">Черная вдова</div>
+        <p class="hero-desc">Мастер шпионажа, акробатика, боевые искусства. Ум, ловкость и «укус вдовы».</p>
+        <div class="power-level">Сила: 72/100</div>
+      </div>
+
+      <div class="hero-card" data-target="clint-barton">
+        <img class="hero-photo" src="images/clint-barton.jpg" alt="Клинт Бартон" loading="lazy" decoding="async">
+        <h3>Клинт Бартон</h3>
+        <div class="hero-alias">Соколиный глаз</div>
+        <p class="hero-desc">Идеальный стрелок, тактик, рукопашный бой. Различные стрелы и невероятная точность.</p>
+        <div class="power-level">Сила: 70/100</div>
+      </div>
+
+      <div class="hero-card" data-target="steve-rogers">
+        <img class="hero-photo" src="images/steve-rogers.jpg" alt="Стив Роджерс" loading="lazy" decoding="async">
+        <h3>Стив Роджерс</h3>
+        <div class="hero-alias">Капитан Америка</div>
+        <p class="hero-desc">Пик человеческой формы, несокрушимая воля, мастер щита. Лидер и стратег.</p>
+        <div class="power-level">Сила: 84/100</div>
+      </div>
+
+      <div class="hero-card" data-target="peter-parker">
+        <img class="hero-photo" src="images/peter-parker.jpg" alt="Питер Паркер" loading="lazy" decoding="async">
+        <h3>Питер Паркер</h3>
+        <div class="hero-alias">Человек-паук</div>
+        <p class="hero-desc">Паучье чутьё, суперсила, ловкость, способность лазать по стенам. Гений-самоучка.</p>
+        <div class="power-level">Сила: 82/100</div>
+      </div>
+
+      <div class="hero-card" data-target="doctor-strange">
+        <img class="hero-photo" src="images/doctor-strange.jpg" alt="Доктор Стрэндж" loading="lazy" decoding="async">
+        <h3>Доктор Стрэндж</h3>
+        <div class="hero-alias">Верховный маг</div>
+        <p class="hero-desc">Магия, телепортация, управление временем, астральная проекция. Глаз Агамотто.</p>
+        <div class="power-level">Сила: 94/100</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- РЕЙТИНГ СИЛЫ (ДОБАВЛЕНЫ id) -->
+  <section id="rating" class="rating-section">
     <h2>Рейтинг силы</h2>
-    <ul class="ranking-list">
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">1</span>
-                <span class="rank-name">🥇 Доктор Стрэндж</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill gold" style="width: 100%;"></div>
-            </div>
-            <span class="rank-score gold">100</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">2</span>
-                <span class="rank-name">🥈 Тор</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill silver" style="width: 99%;"></div>
-            </div>
-            <span class="rank-score silver">99</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">3</span>
-                <span class="rank-name">🥉 Брюс Беннер (Халк)</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill bronze" style="width: 98%;"></div>
-            </div>
-            <span class="rank-score bronze">98</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">4</span>
-                <span class="rank-name">Тони Старк</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill high" style="width: 85%;"></div>
-            </div>
-            <span class="rank-score high">85</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">5</span>
-                <span class="rank-name">Стив Роджерс</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill high" style="width: 80%;"></div>
-            </div>
-            <span class="rank-score high">80</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">6</span>
-                <span class="rank-name">Питер Паркер</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill mid" style="width: 75%;"></div>
-            </div>
-            <span class="rank-score mid">75</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">7</span>
-                <span class="rank-name">Наташа Романофф</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill mid" style="width: 70%;"></div>
-            </div>
-            <span class="rank-score mid">70</span>
-        </li>
-        <li class="ranking-item">
-            <div class="ranking-info">
-                <span class="rank-number">8</span>
-                <span class="rank-name">Клинт Бартон</span>
-            </div>
-            <div class="rank-bar">
-                <div class="rank-fill low" style="width: 65%;"></div>
-            </div>
-            <span class="rank-score low">65</span>
-        </li>
-    </ul>
-</section>
+    <div class="rating-list">
 
-<section id="contact" class="section">
-    <h2>Контакты</h2>
-    <div class="contact-grid">
-        <div class="contact-info">
-            <p>📍 Башня Мстителей, Нью-Йорк, США</p>
-            <p>📧 avengers.initiative@marvel.local</p>
-            <p>📞 +1 (212) 555-0199</p>
+      <div class="rating-item high" id="rating-bruce-banner">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/bruce-banner.jpg" alt="" loading="lazy" decoding="async">
+          Брюс Беннер (Халк)
         </div>
-        <div class="social-links">
-            <a href="#" aria-label="Telegram">📢</a>
-            <a href="#" aria-label="VK">🔵</a>
-            <a href="#" aria-label="YouTube">📺</a>
-            <a href="#" aria-label="Discord">⚡</a>
+        <div class="power-score">98/100</div>
+      </div>
+
+      <div class="rating-item high" id="rating-thor">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/thor.jpg" alt="" loading="lazy" decoding="async">
+          Тор
         </div>
+        <div class="power-score">96/100</div>
+      </div>
+
+      <div class="rating-item high" id="rating-doctor-strange">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/doctor-strange.jpg" alt="" loading="lazy" decoding="async">
+          Доктор Стрэндж
+        </div>
+        <div class="power-score">94/100</div>
+      </div>
+
+      <div class="rating-item high" id="rating-tony-stark">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/tony-stark.jpg" alt="" loading="lazy" decoding="async">
+          Тони Старк
+        </div>
+        <div class="power-score">88/100</div>
+      </div>
+
+      <div class="rating-item medium" id="rating-steve-rogers">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/steve-rogers.jpg" alt="" loading="lazy" decoding="async">
+          Стив Роджерс
+        </div>
+        <div class="power-score">84/100</div>
+      </div>
+
+      <div class="rating-item medium" id="rating-peter-parker">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/peter-parker.jpg" alt="" loading="lazy" decoding="async">
+          Питер Паркер
+        </div>
+        <div class="power-score">82/100</div>
+      </div>
+
+      <div class="rating-item low" id="rating-natasha-romanoff">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/natasha-romanoff.jpg" alt="" loading="lazy" decoding="async">
+          Наташа Романофф
+        </div>
+        <div class="power-score">72/100</div>
+      </div>
+
+      <div class="rating-item low" id="rating-clint-barton">
+        <div class="hero-info">
+          <img class="hero-avatar" src="images/clint-barton.jpg" alt="" loading="lazy" decoding="async">
+          Клинт Бартон
+        </div>
+        <div class="power-score">70/100</div>
+      </div>
+
     </div>
-</section>
+    <p class="rating-note">* Оценки основаны на фанатском анализе. Зелёный — высокий, жёлтый — средний, красный — низкий.</p>
+  </section>
 
-<footer>
-    <p>© 2026 Marvel Fans Rating. Не является официальным сайтом Marvel Studios.</p>
-</footer>
+  <!-- КОНТАКТЫ -->
+  <section id="contacts" class="contacts-section">
+    <div class="address">
+      <span aria-hidden="true">🏢</span>
+      Башня Мстителей, Нью-Йорк
+    </div>
+    <div class="social-links">
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">🐦 Twitter</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+      <a href="https://discord.com" target="_blank" rel="noopener noreferrer">💬 Discord</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    Ⓒ 2025 Фанатский рейтинг Marvel. Все персонажи принадлежат Marvel Studios.
+  </footer>
+
+  <!-- СКРИПТ ДЛЯ ОБРАБОТКИ КЛИКОВ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Находим все карточки и все элементы рейтинга
+      const heroCards = document.querySelectorAll('.hero-card');
+      const ratingItems = document.querySelectorAll('.rating-item');
+
+      heroCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Получаем ID героя из атрибута data-target карточки
+          const targetId = card.getAttribute('data-target');
+          // Находим соответствующую строку в рейтинге
+          const targetRatingItem = document.getElementById('rating-' + targetId);
+
+          if (targetRatingItem) {
+            // Убираем синюю подсветку у всех строк
+            ratingItems.forEach(item => item.classList.remove('blue-highlight'));
+            
+            // Добавляем синюю подсветку нужной строке
+            targetRatingItem.classList.add('blue-highlight');
+
+            // Плавно скроллим страницу к этой строке
+            targetRatingItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
