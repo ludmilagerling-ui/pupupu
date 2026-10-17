@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Киновселенная Marvel · Рейтинг героев</title>
+  <!-- Подключаем крутой шрифт для заголовков -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap" rel="stylesheet">
   <style>
     /* ===== RESET & БАЗОВЫЕ СТИЛИ ===== */
     * {
@@ -14,26 +16,30 @@
     }
 
     :root {
-      /* Новая красная палитра */
-      --primary-red: #e62429;
-      --bright-red: #ff3333;
-      --dark-red: #4a0a0a;
-      --bg-main: #0a0101; /* Почти черный с красным отливом */
-      --bg-card: #1a0505; /* Темно-бордовый */
-      --graphite: #2a0808;
-      --text-light: #ffeded;
-      --text-dim: #d9a5a5;
-      --gold: #f0b323; /* Оставим немного золота для контраста */
+      /* НОВАЯ НЕОНОВАЯ ПАЛИТРА (Фиолетовый и Бирюзовый) */
+      --primary-color: #9b51e0; /* Фиолетовый */
+      --accent-color: #00f2fe; /* Бирюзовый неон */
+      --dark-purple: #2d1b4e;
+      --bg-main: #090a0f; /* Глубокий космический фон */
+      --bg-card: #151221; /* Темно-фиолетовые карточки */
+      --text-light: #f0f0f5;
+      --text-dim: #a0a0b0;
+      --gold: #f0b323;
     }
 
     body {
       font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
       background-color: var(--bg-main);
-      background-image: radial-gradient(circle at top right, #2a0505 0%, var(--bg-main) 70%);
+      background-image: radial-gradient(circle at top right, #1f0b3b 0%, var(--bg-main) 70%);
       color: var(--text-light);
       line-height: 1.5;
       padding-top: 70px;
       min-height: 100vh;
+    }
+
+    h1, h2, h3, .logo {
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 1px;
     }
 
     /* ===== ФИКСИРОВАННАЯ НАВИГАЦИЯ ===== */
@@ -43,16 +49,15 @@
       left: 0;
       width: 100%;
       height: 70px;
-      background: rgba(10, 1, 1, 0.95);
+      background: rgba(9, 10, 15, 0.95);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 5%;
       z-index: 1000;
-      border-bottom: 2px solid var(--primary-red);
-      box-shadow: 0 6px 20px rgba(230, 36, 41, 0.3);
+      border-bottom: 2px solid var(--primary-color);
+      box-shadow: 0 6px 20px rgba(155, 81, 224, 0.3);
     }
 
     .logo {
@@ -60,15 +65,14 @@
       align-items: center;
       gap: 8px;
       font-size: 1.6rem;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-weight: 700;
       text-transform: uppercase;
       color: white;
-      text-shadow: 0 0 10px var(--primary-red);
+      text-shadow: 0 0 10px var(--primary-color);
     }
 
     .logo span {
-      color: var(--primary-red);
+      color: var(--accent-color);
       font-size: 2rem;
       line-height: 1;
     }
@@ -83,16 +87,15 @@
       color: #fff;
       text-decoration: none;
       font-size: 1rem;
-      letter-spacing: 0.5px;
       padding: 6px 2px;
       border-bottom: 2px solid transparent;
       transition: 0.25s ease;
     }
 
     .nav-links a:hover {
-      color: var(--bright-red);
-      border-bottom-color: var(--bright-red);
-      text-shadow: 0 0 12px rgba(255, 51, 51, 0.8);
+      color: var(--accent-color);
+      border-bottom-color: var(--accent-color);
+      text-shadow: 0 0 12px rgba(0, 242, 254, 0.8);
     }
 
     /* ===== ОБЩИЕ СЕКЦИИ ===== */
@@ -103,16 +106,15 @@
     }
 
     h2 {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
       margin-bottom: 2rem;
       display: inline-block;
-      border-left: 6px solid var(--primary-red);
+      border-left: 6px solid var(--primary-color);
       padding-left: 1rem;
       text-transform: uppercase;
       color: #fff;
-      text-shadow: 0 0 15px rgba(230, 36, 41, 0.6);
+      text-shadow: 0 0 20px rgba(155, 81, 224, 0.8);
     }
 
     /* ===== ГЛАВНЫЙ РАЗДЕЛ (HERO) ===== */
@@ -123,17 +125,17 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: radial-gradient(circle at center, #3a0a0a 0%, var(--bg-main) 80%);
+      background: radial-gradient(circle at center, #200b40 0%, var(--bg-main) 80%);
       border-radius: 0 0 40px 40px;
       margin-bottom: 2rem;
       padding: 2rem 5%;
       position: relative;
       overflow: hidden;
-      border-bottom: 2px solid var(--dark-red);
+      border-bottom: 2px solid var(--dark-purple);
     }
 
     .hero-section::before {
-      content: "🔥";
+      content: "💎"; /* Заменили огонь на камень бесконечности */
       position: absolute;
       font-size: 25rem;
       opacity: 0.05;
@@ -144,15 +146,14 @@
     }
 
     .hero-section h1 {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      font-weight: 800;
-      line-height: 1.2;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
       text-transform: uppercase;
       color: white;
-      text-shadow: 0 0 30px var(--primary-red);
+      text-shadow: 0 0 30px var(--primary-color), 0 0 10px var(--accent-color);
       max-width: 1000px;
       margin-bottom: 1.5rem;
-      letter-spacing: -1px;
     }
 
     .hero-section p {
@@ -165,8 +166,8 @@
 
     .btn-cta {
       display: inline-block;
-      background: var(--primary-red);
-      color: white;
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      color: #000;
       font-weight: 700;
       font-size: 1.2rem;
       padding: 1rem 3rem;
@@ -174,18 +175,15 @@
       text-decoration: none;
       text-transform: uppercase;
       letter-spacing: 2px;
-      border: 2px solid transparent;
+      border: none;
       transition: 0.3s ease;
-      box-shadow: 0 0 25px rgba(230, 36, 41, 0.8);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
       cursor: pointer;
     }
 
     .btn-cta:hover {
-      background: transparent;
-      color: var(--bright-red);
-      border-color: var(--bright-red);
-      box-shadow: 0 0 35px rgba(255, 51, 51, 1);
-      transform: scale(1.05);
+      box-shadow: 0 0 45px rgba(0, 242, 254, 1);
+      transform: scale(1.05) translateY(-2px);
     }
 
     /* ===== О ПРОЕКТЕ ===== */
@@ -194,8 +192,8 @@
       border-radius: 30px;
       padding: 3rem 4%;
       margin: 2rem auto;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(230, 36, 41, 0.1);
-      border: 1px solid var(--dark-red);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(155, 81, 224, 0.2);
+      border: 1px solid var(--dark-purple);
     }
 
     .about-section p {
@@ -206,9 +204,9 @@
     }
 
     .about-section .highlight {
-      color: var(--bright-red);
+      color: var(--accent-color);
       font-weight: 600;
-      text-shadow: 0 0 8px rgba(255, 51, 51, 0.5);
+      text-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
     }
 
     /* ===== СЕТКА КАРТОЧЕК ГЕРОЕВ ===== */
@@ -223,7 +221,7 @@
       background: var(--bg-card);
       border-radius: 24px;
       padding: 1.8rem 1.4rem;
-      border: 1px solid var(--dark-red);
+      border: 1px solid var(--dark-purple);
       box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.9);
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
       display: flex;
@@ -239,15 +237,15 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: var(--primary-red);
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
       opacity: 0;
       transition: 0.4s;
     }
 
     .hero-card:hover {
       transform: translateY(-8px) scale(1.02);
-      border-color: var(--primary-red);
-      box-shadow: 0 0 30px rgba(230, 36, 41, 0.4), 0 15px 30px -10px black;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.3), 0 15px 30px -10px black;
     }
 
     .hero-card:hover::after {
@@ -257,20 +255,19 @@
     .hero-emoji {
       font-size: 3rem;
       margin-bottom: 0.8rem;
-      filter: drop-shadow(0 0 15px rgba(230, 36, 41, 0.8));
+      filter: drop-shadow(0 0 15px rgba(155, 81, 224, 0.8));
     }
 
     .hero-card h3 {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: white;
       margin-bottom: 0.3rem;
-      letter-spacing: -0.5px;
     }
 
     .hero-alias {
       font-size: 0.9rem;
-      color: var(--primary-red);
+      color: var(--accent-color);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -286,14 +283,14 @@
     }
 
     .power-level {
-      background: rgba(230, 36, 41, 0.1);
+      background: rgba(155, 81, 224, 0.1);
       border-radius: 40px;
       padding: 0.5rem 1rem;
       font-weight: 700;
       font-size: 1rem;
       display: inline-block;
-      border: 1px solid var(--dark-red);
-      color: var(--primary-red);
+      border: 1px solid var(--primary-color);
+      color: var(--accent-color);
       letter-spacing: 0.5px;
       text-align: center;
       margin-top: auto;
@@ -301,12 +298,12 @@
 
     /* ===== РАЗДЕЛ РЕЙТИНГА ===== */
     .rating-section {
-      background: var(--graphite);
+      background: var(--bg-card);
       border-radius: 30px;
       padding: 2rem 4%;
       margin: 3rem auto;
-      border: 1px solid var(--dark-red);
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+      border: 1px solid var(--dark-purple);
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
     }
 
     .rating-list {
@@ -320,7 +317,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--bg-card);
+      background: #110e1c;
       padding: 1rem 1.5rem;
       border-radius: 60px;
       border-left: 10px solid;
@@ -329,7 +326,7 @@
     }
 
     .rating-item:hover {
-      background: #2a0808;
+      background: #1a1528;
       transform: translateX(6px);
     }
 
@@ -353,35 +350,35 @@
       padding: 0.3rem 1rem;
       border-radius: 40px;
       color: white;
-      border: 1px solid var(--dark-red);
+      border: 1px solid var(--dark-purple);
     }
 
-    /* Цветовые индикаторы для красной темы */
+    /* Цветовые индикаторы для фиолетовой темы */
     .high {
-      border-left-color: var(--bright-red);
-      box-shadow: 0 0 15px rgba(255, 51, 51, 0.3);
+      border-left-color: var(--accent-color);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
     }
     .high .power-score {
-      color: var(--bright-red);
-      text-shadow: 0 0 8px var(--bright-red);
+      color: var(--accent-color);
+      text-shadow: 0 0 8px var(--accent-color);
     }
 
     .medium {
-      border-left-color: var(--gold);
-      box-shadow: 0 0 15px rgba(240, 179, 35, 0.2);
+      border-left-color: var(--primary-color);
+      box-shadow: 0 0 15px rgba(155, 81, 224, 0.2);
     }
     .medium .power-score {
-      color: var(--gold);
-      text-shadow: 0 0 6px var(--gold);
+      color: var(--primary-color);
+      text-shadow: 0 0 6px var(--primary-color);
     }
 
     .low {
-      border-left-color: #888;
-      box-shadow: 0 0 15px rgba(136, 136, 136, 0.2);
+      border-left-color: #666;
+      box-shadow: 0 0 15px rgba(102, 102, 102, 0.2);
     }
     .low .power-score {
-      color: #aaa;
-      text-shadow: 0 0 6px #aaa;
+      color: #888;
+      text-shadow: 0 0 6px #888;
     }
 
     /* ===== КОНТАКТЫ ===== */
@@ -390,7 +387,7 @@
       border-radius: 30px;
       padding: 2.5rem 4%;
       margin: 2rem auto 3rem;
-      border: 1px solid var(--dark-red);
+      border: 1px solid var(--dark-purple);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -408,7 +405,7 @@
 
     .address span:first-child {
       font-size: 2.2rem;
-      filter: drop-shadow(0 0 10px var(--primary-red));
+      filter: drop-shadow(0 0 10px var(--primary-color));
     }
 
     .social-links {
@@ -427,16 +424,16 @@
       color: #fff;
       text-decoration: none;
       font-weight: 500;
-      border: 1px solid var(--dark-red);
+      border: 1px solid var(--dark-purple);
       transition: 0.25s;
       font-size: 1rem;
     }
 
     .social-links a:hover {
-      background: var(--primary-red);
-      border-color: var(--primary-red);
+      background: var(--primary-color);
+      border-color: var(--accent-color);
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(230, 36, 41, 0.6);
+      box-shadow: 0 8px 20px rgba(155, 81, 224, 0.6);
     }
 
     /* ===== АДАПТИВНОСТЬ ===== */
@@ -447,10 +444,8 @@
       .logo span { font-size: 1.5rem; }
       .nav-links { gap: 1rem; }
       .nav-links a { font-size: 0.8rem; }
-      h2 { font-size: 1.7rem; }
-      .hero-section h1 { font-size: 2rem; }
-      .hero-section p { font-size: 1rem; }
-      .btn-cta { padding: 0.8rem 2rem; font-size: 1rem; }
+      h2 { font-size: 1.8rem; }
+      .hero-section h1 { font-size: 2.2rem; }
       .cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
       .rating-item {
         flex-direction: column;
@@ -459,33 +454,14 @@
         border-radius: 20px;
         padding: 1rem 1.2rem;
       }
-      .hero-info { font-size: 1rem; }
       .power-score { align-self: flex-end; }
       .contacts-section { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
-      .address { font-size: 1rem; }
-      .social-links a { padding: 0.5rem 1rem; font-size: 0.9rem; }
-    }
-
-    @media (max-width: 480px) {
-      .nav-links { gap: 0.7rem; }
-      .nav-links a { font-size: 0.7rem; }
-      .logo { font-size: 1rem; }
-      section { padding: 2.5rem 4%; }
-      .about-section p { font-size: 1rem; }
     }
 
     /* Кастомный скроллбар */
-    ::-webkit-scrollbar {
-      width: 10px;
-      background: var(--bg-main);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary-red);
-      border-radius: 5px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--bright-red);
-    }
+    ::-webkit-scrollbar { width: 10px; background: var(--bg-main); }
+    ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
   </style>
 </head>
 <body>
@@ -617,7 +593,7 @@
         <div class="power-score">70/100</div>
       </div>
     </div>
-    <p style="margin-top: 1.5rem; color: var(--text-dim); font-size: 0.9rem; text-align: right; border-top: 1px solid var(--dark-red); padding-top: 1rem;">* Оценки основаны на фанатском анализе. Ярко-красный — высокий, золотой — средний, серый — низкий.</p>
+    <p style="margin-top: 1.5rem; color: var(--text-dim); font-size: 0.9rem; text-align: right; border-top: 1px solid var(--dark-purple); padding-top: 1rem;">* Оценки основаны на фанатском анализе. Бирюзовый — высокий, фиолетовый — средний, серый — низкий.</p>
   </section>
 
   <!-- КОНТАКТЫ -->
@@ -634,7 +610,7 @@
     </div>
   </section>
 
-  <footer style="text-align: center; padding: 2rem 5%; color: #885555; font-size: 0.9rem; border-top: 1px solid var(--dark-red);">
+  <footer style="text-align: center; padding: 2rem 5%; color: #665577; font-size: 0.9rem; border-top: 1px solid var(--dark-purple);">
     Ⓒ 2025 Фанатский рейтинг Marvel. Все персонажи принадлежат Marvel Studios.
   </footer>
 
